@@ -5,6 +5,8 @@ import wikipedia
 engine = pyttsx3.init('espeak')
 voices = engine.getProperty('voices')
 engine.setProperty('voices',voices[1].id)
+#vol=engine.getProperty('volume')
+#print(engine.getProperty('volume'))
 #print(voices)
 #engine.say("hello")
 #engine.runAndWait()
@@ -16,12 +18,31 @@ def wishme():
     elif hour>12 and hour<17:
         speak("Good Afternoon Sir,Lets get to work")
     elif hour>17:
-        speak("Good evening Sir,long day uhh")
+        speak("Good evening Sir,long day ha")
     speak("I am Alen, how may i help")
 
+def volume_down():
+    vol=engine.getProperty('volume')
+    if vol == 0 :
+        speak("the volume is minimum")
+        print(vol)
+    else:
+     vol=vol-1
+     engine.setProperty('volume',vol)
+     print("is the volume is okay")
+     speak("is the volume is okay")
 
+def volume_up():
+    if vol == 10:
+        speak("the volume is maximum")
+        print(vol)
+    else:
+     vol=vol+1
+     engine.setProperty('volume',vol)
+     print("is the volume is okay")
+     speak("is the volume is okay")
 
-
+    vol
 def speak(audio):
     engine.say(audio)
     engine.runAndWait()
@@ -43,23 +64,40 @@ def take():
         return "None"        
     return query
 
+def wiki(query):
+    speak('Searching in wikipedia')
+    query = query.replace("wikipedia", " ")
+    try: 
+        results = wikipedia.summary(query,sentences=2)
+    except Exception as e: 
+        print("Server is slow, Please try again")
+        speak("Server is slow, Please try again")
+        #print(engine.getProperty('rate'))
+    speak("According to wikipedia")
+    print(results)
+    speak(results)
+
+
 if __name__ == "__main__":
-    engine.setProperty('rate', 150)
+    engine.setProperty('rate', 170)
+   # volume_down()
     #speak("Harry is a good boy")
     wishme()
     while True:
        query=take().lower()
        #logics
        if 'wikipedia' in query:
-          speak('Searching in wikipedia')
-          query = query.replace("wikipedia", " ")
-          try: 
-             results = wikipedia.summary(query,sentences=2)
-          except Exception as e: 
-              print("Server is slow, Please try again")
-              speak("Server is slow, Please try again")
-                #print(engine.getProperty('rate'))
-          speak("According to wikipedia")
-          print(results)
-          speak(results)
+           wiki(query)
+          
+
+
+
+
+
+
+
+
+
+
+
           
